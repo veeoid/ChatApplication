@@ -7,13 +7,31 @@
 </head>
 <body>
     <h1>Chat App</h1>
-    <button onclick="createConnection()">Create WebSocket Connection</button>
-    <script src="/socket.io/socket.io.js">
-    </script>
+    <div class="container-xl">
+    <div class="col mt-3">
+        <div class="row">
+        <input type="text" placeholder="Type in your message here" id="message-input">
+        <button id="send-btn">Create WebSocket Connection</button>
+        </div>
+    </div>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-        function createConnection(){
-            const socket = io();
-        }
+        const socket = io();
+        const messageInput = document.getElementById('message-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        socket.on('server-message', (message) => {
+            console.log(`Server Recieved: ${message}`);
+        })
+
+        sendBtn.addEventListener('click', (e)=>{
+            const message = messageInput.value;
+            console.log(message);
+            socket.emit('user-message', message)
+        })
+
     </script>
 </body>
 </html>
